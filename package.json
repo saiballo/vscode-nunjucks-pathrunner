@@ -1,0 +1,60 @@
+{
+	"name": "nunjucks-pathrunner",
+	"displayName": "Nunjucks Pathrunner",
+	"description": "Ctrl + click and Go to Definition support for static Nunjucks template paths.",
+	"version": "1.0.1",
+	"icon": "images/icon.png",
+	"publisher": "saibal",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.70.0"
+	},
+	"categories": [
+		"Programming Languages",
+		"Other"
+	],
+	"keywords": [
+		"nunjucks",
+		"njk",
+		"template",
+		"go to definition",
+		"ctrl click",
+		"path",
+		"include",
+		"extends",
+		"import"
+	],
+	"bugs": {
+		"url": "https://github.com/saiballo/",
+		"email": "lorenzo.forti@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/saiballo/"
+	},
+	"homepage": "https://github.com/saiballo/",
+	"main": "./extension.js",
+	"activationEvents": [
+		"onLanguage:nunjucks",
+		"workspaceContains:**/*.njk"
+	],
+	"contributes": {
+		"configuration": {
+			"title": "Nunjucks Pathrunner Path",
+			"description": "Base path used to resolve Nunjucks template links.",
+			"properties": {
+				"nunjucksTemplatePath.includePath": {
+					"type": "string",
+					"default": "src/view/_include",
+					"description": "Base path used to resolve Eleventy/Nunjucks template links."
+				}
+			}
+		}
+	},
+	"files": [
+		"extension.js",
+		"images",
+		"README.md",
+		"LICENSE.txt"
+	]
+}
