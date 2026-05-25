@@ -2,7 +2,7 @@
 	"name": "nunjucks-pathrunner",
 	"displayName": "Nunjucks Pathrunner",
 	"description": "Ctrl + click and Go to Definition support for static Nunjucks template paths.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"icon": "images/icon.png",
 	"publisher": "saibal",
 	"license": "MIT",
@@ -25,14 +25,14 @@
 		"import"
 	],
 	"bugs": {
-		"url": "https://github.com/saiballo/",
+		"url": "https://github.com/saiballo/vscode-nunjucks-pathrunner/issues",
 		"email": "lorenzo.forti@gmail.com"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/saiballo/"
+		"url": "https://github.com/saiballo/vscode-nunjucks-pathrunner.git"
 	},
-	"homepage": "https://github.com/saiballo/",
+	"homepage": "https://github.com/saiballo/vscode-nunjucks-pathrunner/",
 	"main": "./extension.js",
 	"activationEvents": [
 		"onLanguage:nunjucks",
