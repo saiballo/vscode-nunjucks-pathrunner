@@ -5,7 +5,7 @@
 * Created: 09/05/2026 (18:48:49)
 * Created by: Lorenzo Saibal Forti <lorenzo.forti@gmail.com>
 *
-* Last update: 10/05/2026 (19:38:24)
+* Last update: 14/10/2026 (18:44:12)
 * Updated by: Lorenzo Saibal Forti <lorenzo.forti@gmail.com>
 *
 * Copyleft: 2026 - Tutti i diritti riservati
@@ -22,15 +22,27 @@ const vscode = require("vscode");
 
 const deactivate = () => {};
 
-const getConfig = () => {
+/**
+ * Recupera la configurazione dell'estensione per il documento indicato.
+ *
+ * @param {vscode.TextDocument} document Documento VS Code di riferimento.
+ * @returns {{includePath: string}} Percorso configurato per gli include dei template.
+ */
+const getConfig = (document) => {
 
-	const config = vscode.workspace.getConfiguration("nunjucksTemplatePath");
+	const config = vscode.workspace.getConfiguration("nunjucksTemplatePath", document.uri);
 
 	return {
 		"includePath": config.get("includePath", "src/view/_include")
 	};
 };
 
+/**
+ * Restituisce la cartella del workspace che contiene il documento.
+ *
+ * @param {vscode.TextDocument} document Documento da associare al workspace.
+ * @returns {vscode.WorkspaceFolder|undefined} Cartella del workspace, se disponibile.
+ */
 const getWorkspace = (document) => {
 
 	const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
@@ -40,6 +52,16 @@ const getWorkspace = (document) => {
 	return workspaceFolder;
 };
 
+/**
+ * Verifica l'esistenza del template richiesto nel filesystem del workspace.
+ *
+ * Mostra un avviso se il file non è disponibile.
+ *
+ * @param {vscode.Uri} targetUri URI del template da verificare.
+ * @param {string} templatePath Percorso del template richiesto.
+ * @param {string} includePath Percorso di inclusione che ha richiesto il template.
+ * @returns {Promise<boolean>} `true` se il template esiste, altrimenti `false`.
+ */
 const templateExists = async (targetUri, templatePath, includePath) => {
 
 	try {
@@ -56,6 +78,15 @@ const templateExists = async (targetUri, templatePath, includePath) => {
 	}
 };
 
+/**
+ * Attiva il provider di definizione per i riferimenti a template Nunjucks.
+ *
+ * Risolve solo i percorsi `.njk` e `.html` inclusi, estesi o importati
+ * all'interno del workspace configurato e non restituisce una definizione
+ * quando il file di destinazione non esiste.
+ *
+ * @param {vscode.ExtensionContext} context Contesto dell'estensione usato per registrare il provider.
+ */
 const activate = (context) => {
 
 	const definitionProvider = vscode.languages.registerDefinitionProvider(
@@ -74,7 +105,7 @@ const activate = (context) => {
 
 				const text = document.getText();
 				// espressione regolare per intercettare i vari pattern include o import di nunjucks (per gli include anche html)
-				const regex = /{%\s*(?:include|extends|import|from)\s+["']([^"']+\.(?:njk|html))["']/g;
+				const regex = /{%-?\s*(?:include|extends|import|from)\s+["']([^"']+\.(?:njk|html))["']/g;
 
 				let match;
 
@@ -93,7 +124,7 @@ const activate = (context) => {
 
 					if (typeof workspace === "undefined") return undefined;
 
-					const { includePath } = getConfig();
+					const { includePath } = getConfig(document);
 
 					const targetPath = path.resolve(workspace.uri.fsPath, includePath, templatePath);
 

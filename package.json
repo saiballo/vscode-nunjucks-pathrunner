@@ -2,7 +2,7 @@
 	"name": "nunjucks-pathrunner",
 	"displayName": "Nunjucks Pathrunner",
 	"description": "Ctrl + click and Go to Definition support for static Nunjucks template paths.",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"icon": "images/icon.png",
 	"publisher": "saibal",
 	"license": "MIT",
